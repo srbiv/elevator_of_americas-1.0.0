@@ -4,7 +4,7 @@ module ElevatorOfAmericas
     FLOORS = FLOOR_RANGE.to_a
     MIN_ELEVATORS = 3
 
-    attr_reader :elevators, :elevator_count, :elevator_dispatcher, 
+    attr_reader :elevator_count, :elevator_dispatcher, 
                 :elevator_request_factory
 
     # Public: Initialize an elevator bank.
@@ -33,13 +33,13 @@ module ElevatorOfAmericas
     # direction - Symbol, the direction the requester wants to go, :down or :up
     def dispatch_to(floor, direction)
       request = elevator_request_factory.new(floor, direction)
-      elevator = elevator_dispatcher.next_elevator(elevators, request)
+      elevator = elevator_dispatcher.next_elevator(@elevators, request)
       elevator.queue_stop(request)
     end
 
-    def status
+    def elevators
       status_message = "#{elevator_count} elevators \n"
-      elevators.each_with_index do |elevator, index|
+      @elevators.each_with_index do |elevator, index|
         human_index = index + 1
         status_message << "Elevator #{human_index}: #{elevator}  \n"
       end
